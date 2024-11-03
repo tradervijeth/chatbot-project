@@ -1,13 +1,17 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-from src.chatbot import EnhancedChatbot
+from chatbot import Chatbot
 import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
 # Initialize chatbot
-chatbot = EnhancedChatbot()
+chatbot = Chatbot()
 
 @app.route('/')
 def home():
@@ -22,7 +26,7 @@ def chat():
         return jsonify({'error': 'No message provided'}), 400
     
     try:
-        # Get response from enhanced chatbot
+        # Get response from chatbot
         response = chatbot.chat(user_message)
         
         return jsonify({
